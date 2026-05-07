@@ -6,7 +6,7 @@ ENV XDEBUG_MODE=off
 # xdebug is a major performance drag, so disable it here (it's already
 # been disabled for CLI PHP in bullseye-php81).
 
-RUN apt-get update && apt-get install -yq php8.3-fpm php-pear \
+RUN apt-get update && apt-get install -yq php8.3-fpm php-pear unzip \
     && rm -rf /var/lib/apt/lists/*
 
 # php-fpm configuration:
