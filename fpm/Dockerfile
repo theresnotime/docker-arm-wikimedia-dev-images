@@ -1,13 +1,37 @@
 FROM docker-registry.wikimedia.org/dev/bookworm-php83:1.0.0
 
 ENV XDEBUG_MODE=off
+ARG INSTALL_WIKIDIFF2=true
+ARG WIKIDIFF2_VERSION=1.14.1
 
 # We don't want the default index.html for running PHP applications, and
 # xdebug is a major performance drag, so disable it here (it's already
 # been disabled for CLI PHP in bullseye-php81).
 
-RUN apt-get update && apt-get install -yq php8.3-fpm php-pear \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -yq php8.3-fpm php-pear
+
+# Optionally install wikidiff2 (https://w.wiki/MpmQ)
+RUN if [ "$INSTALL_WIKIDIFF2" = "true" ]; then \
+        # wikidiff2 dependency
+        apt-get install -yq libthai-dev; \
+        # Get the release from releases.wikimedia.org
+        curl -fsSL -A "docker-arm-wikimedia-dev-images" \
+        "https://releases.wikimedia.org/wikidiff2/wikidiff2-${WIKIDIFF2_VERSION}.tar.gz" \
+        -o /tmp/wikidiff2.tar.gz \
+        && mkdir /tmp/wikidiff2 \
+        && tar -xzf /tmp/wikidiff2.tar.gz -C /tmp/wikidiff2 --strip-components=1 \
+        && cd /tmp/wikidiff2 \
+        && phpize8.3 \
+        && ./configure --with-php-config=php-config8.3 \
+        && make \
+        && make install \
+        && echo "extension=wikidiff2.so" > /etc/php/8.3/mods-available/wikidiff2.ini \
+        && phpenmod -v 8.3 wikidiff2 \
+        && rm -rf /tmp/wikidiff2 /tmp/wikidiff2.tar.gz; \
+    fi
+
+# Clean up apt cache to reduce image size
+RUN rm -rf /var/lib/apt/lists/*
 
 # php-fpm configuration:
 COPY ../files/mediawiki-fpm/docker/20-xdebug.ini /docker/20-xdebug.ini
