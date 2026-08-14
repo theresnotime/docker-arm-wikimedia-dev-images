@@ -43,6 +43,12 @@ docker build . -f fpm/Dockerfile -t "${phpFpmImg}:${phpFpmTag}"
 echo "Building php8.3 Job Runner ${DISTRO} image ${phpJobRunnerImg}:${phpJobRunnerTag}"
 docker build . -f jobrunner/Dockerfile -t "${phpJobRunnerImg}:${phpJobRunnerTag}"
 
+## Building test-kitchen (arm64) image
+## Uses its own build context (cloned service source), so it has a dedicated
+## script instead of the "docker build . -f <dir>/Dockerfile" pattern above.
+echo "Building test-kitchen arm64 image"
+"$(dirname "$0")/test-kitchen/build-test-kitchen.sh"
+
 ## Remove unused images (silently ignore if images don't exist)
 docker rmi "${imgFull}" 2>/dev/null || true
 docker rmi "${img}:latest" 2>/dev/null || true
