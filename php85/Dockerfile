@@ -1,10 +1,6 @@
-FROM docker-registry.wikimedia.org/dev/bookworm-php-sury:1.0.1-s4-arm1
+FROM docker-registry.wikimedia.org/dev/trixie-php-sury:1.0.0-s1-arm1
 
 ENV PHP_VERSION=8.5
-
-# The upstream image takes PHP from the Wikimedia APT repository and keeps
-# Sury at a low priority for php-ast only. The Wikimedia repository has no
-# arm64 packages, so this image takes all of PHP from Sury.
 
 # Not installing php-tidy here - see https://phabricator.wikimedia.org/T191771
 RUN apt-get update && apt-get install -yq \
@@ -30,6 +26,8 @@ RUN apt-get update && apt-get install -yq \
     php8.5-xdebug \
     php8.5-xhprof \
     build-essential \
+    djvulibre-bin \
+    netpbm \
     && rm -rf /var/lib/apt/lists/*
 
 RUN update-alternatives --set php /usr/bin/php8.5

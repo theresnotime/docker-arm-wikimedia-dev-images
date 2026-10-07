@@ -1,10 +1,10 @@
-FROM docker-registry.wikimedia.org/dev/bookworm-php85:1.0.0-arm1
+FROM docker-registry.wikimedia.org/dev/trixie-php85:1.0.0-s1-arm1
 
 ENV XDEBUG_MODE=off
 
 # We don't want the default index.html for running PHP applications, and
 # xdebug is a major performance drag, so disable it here (it's already
-# been disabled for CLI PHP in bookworm-php85).
+# been disabled for CLI PHP in trixie-php85).
 
 RUN apt-get update && apt-get install -yq php8.5-fpm \
     && rm -rf /var/lib/apt/lists/*

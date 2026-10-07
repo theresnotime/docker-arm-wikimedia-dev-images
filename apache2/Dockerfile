@@ -1,4 +1,4 @@
-FROM docker-registry.wikimedia.org/bookworm:latest
+FROM docker-registry.wikimedia.org/trixie:latest
 
 # We don't want the default index.html for running PHP applications.
 RUN apt-get update && apt-get install -yq apache2 \

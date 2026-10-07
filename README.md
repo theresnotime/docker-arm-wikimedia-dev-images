@@ -3,9 +3,10 @@ This tool and script helps to create arm/(Mac M1 compatible) images for the deve
 
 The images mirror the upstream ones from
 [repos/releng/dev-images](https://gitlab.wikimedia.org/repos/releng/dev-images).
-Tags keep the upstream version and add an `-arm1` suffix. The main difference:
-upstream installs PHP from `apt.wikimedia.org`, which has no arm64 packages, so
-these images install PHP from [Sury](https://packages.sury.org/php/) instead.
+Tags keep the upstream version and add an `-arm1` suffix. Like upstream, the
+images install PHP from [Sury](https://packages.sury.org/php/). The main
+difference is the base: `trixie/Dockerfile` builds it from `debian:trixie`
+instead of the Wikimedia `trixie` base image.
 
 The build also makes `-python3` variants of the FPM and job runner images.
 Upstream installs no python3, but the production servers have it, and
@@ -48,11 +49,11 @@ instead of expecting them to match.
     ```yaml
     services:
       mediawiki:
-        image: docker-registry.wikimedia.org/dev/bookworm-php85-fpm:1.0.0-arm1-python3
+        image: docker-registry.wikimedia.org/dev/trixie-php85-fpm:1.0.0-s1-arm1-python3
       mediawiki-web:
-        image: docker-registry.wikimedia.org/dev/bookworm-apache2:1.0.1-s3-arm1
+        image: docker-registry.wikimedia.org/dev/trixie-apache2:1.0.0-s1-arm1
       mediawiki-jobrunner:
-        image: docker-registry.wikimedia.org/dev/bookworm-php85-jobrunner:1.0.0-arm1-python3
+        image: docker-registry.wikimedia.org/dev/trixie-php85-jobrunner:1.0.0-s1-arm1-python3
     ```
 
 - Shutdown the current containers:

@@ -14,48 +14,48 @@ cd "$(dirname "$0")"
 
 # Files copied verbatim from upstream. Format: "<local path> <upstream path>".
 COPIED="
-files/mediawiki-bookworm/php_entrypoint.sh bookworm/php_entrypoint.sh
-files/mediawiki-bookworm/composer.phar.sha256sum bookworm/composer.phar.sha256sum
-files/mediawiki-bookworm/docker/install.sh bookworm/install.sh
-files/mediawiki-bookworm/docker/PlatformSettings.php bookworm/PlatformSettings.php
-files/mediawiki-bookworm/docker/xdebug.ini bookworm/xdebug.ini
-files/mediawiki-apache2/ports.conf bookworm-apache2/ports.conf
-files/mediawiki-apache2/envvars bookworm-apache2/envvars
-files/mediawiki-apache2/000-default.conf bookworm-apache2/000-default.conf
-files/mediawiki-fpm/php-fpm.conf bookworm-php85-fpm/php-fpm.conf
-files/mediawiki-jobrunner/entrypoint.sh bookworm-php85-jobrunner/entrypoint.sh
-files/mediawiki-jobrunner/docker/PlatformSettings.php bookworm-php85-jobrunner/PlatformSettings.php
-files/mediawiki-php-sury/debsuryorg-archive-keyring.deb bookworm-php-sury/debsuryorg-archive-keyring.deb
+files/mediawiki-trixie/php_entrypoint.sh trixie/php_entrypoint.sh
+files/mediawiki-trixie/composer.phar.sha256sum trixie/composer.phar.sha256sum
+files/mediawiki-trixie/docker/install.sh trixie/install.sh
+files/mediawiki-trixie/docker/PlatformSettings.php trixie/PlatformSettings.php
+files/mediawiki-trixie/docker/xdebug.ini trixie/xdebug.ini
+files/mediawiki-apache2/ports.conf trixie-apache2/ports.conf
+files/mediawiki-apache2/envvars trixie-apache2/envvars
+files/mediawiki-apache2/000-default.conf trixie-apache2/000-default.conf
+files/mediawiki-fpm/php-fpm.conf trixie-php85-fpm/php-fpm.conf
+files/mediawiki-jobrunner/entrypoint.sh trixie-php85-jobrunner/entrypoint.sh
+files/mediawiki-jobrunner/docker/PlatformSettings.php trixie-php85-jobrunner/PlatformSettings.php
+files/mediawiki-php-sury/debsuryorg-archive-keyring.deb trixie-php-sury/debsuryorg-archive-keyring.deb
 "
 
 # Files kept different on purpose. Upstream changes to these need a manual
 # decision, so the script only reports them.
 LOCAL="
-files/mediawiki-bookworm/docker/www.conf bookworm/www.conf
-files/mediawiki-apache2/apache2.conf bookworm-apache2/apache2.conf
-files/mediawiki-apache2/entrypoint.sh bookworm-apache2/entrypoint.sh
+files/mediawiki-trixie/docker/www.conf trixie/www.conf
+files/mediawiki-apache2/apache2.conf trixie-apache2/apache2.conf
+files/mediawiki-apache2/entrypoint.sh trixie-apache2/entrypoint.sh
 "
 
 # Upstream templates that the local Dockerfiles follow by hand.
 TEMPLATES="
-bookworm/Dockerfile.template
-bookworm-php-sury/Dockerfile.template
-bookworm-php85/Dockerfile.template
-bookworm-php85-fpm/Dockerfile.template
-bookworm-php85-jobrunner/Dockerfile.template
-bookworm-apache2/Dockerfile.template
+trixie/Dockerfile.template
+trixie-php-sury/Dockerfile.template
+trixie-php85/Dockerfile.template
+trixie-php85-fpm/Dockerfile.template
+trixie-php85-jobrunner/Dockerfile.template
+trixie-apache2/Dockerfile.template
 "
 
 # Upstream image versions, and the build.sh variable that mirrors each one.
 # Format: "<upstream image dir> <build.sh variable>". A "-" means the local
 # build does not tag that image.
 IMAGES="
-bookworm -
-bookworm-php-sury suryTag
-bookworm-apache2 apache2Tag
-bookworm-php85 phpTag
-bookworm-php85-fpm phpFpmTag
-bookworm-php85-jobrunner phpJobRunnerTag
+trixie -
+trixie-php-sury suryTag
+trixie-apache2 apache2Tag
+trixie-php85 phpTag
+trixie-php85-fpm phpFpmTag
+trixie-php85-jobrunner phpJobRunnerTag
 "
 
 sync_cache() {

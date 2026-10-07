@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:trixie
 
 RUN echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/00InstallRecommends
 
@@ -23,13 +23,13 @@ RUN apt-get update && apt-get install -yq --no-install-recommends dialog apt-uti
 
 # Stash installation script, MediaWiki default settings, PHP-FPM pool
 # settings and Xdebug settings:
-COPY ../files/mediawiki-bookworm/docker/ /docker/
+COPY ../files/mediawiki-trixie/docker/ /docker/
 
 # Entrypoint for PHP-FPM
-COPY ../files/mediawiki-bookworm/php_entrypoint.sh /php_entrypoint.sh
+COPY ../files/mediawiki-trixie/php_entrypoint.sh /php_entrypoint.sh
 
 # Install composer:
-COPY ../files/mediawiki-bookworm/composer.phar.sha256sum /srv/composer/composer.phar.sha256sum
+COPY ../files/mediawiki-trixie/composer.phar.sha256sum /srv/composer/composer.phar.sha256sum
 RUN cd /srv/composer \
     && curl --silent --fail --output composer.phar https://getcomposer.org/download/2.10.2/composer.phar \
     && sha256sum -c composer.phar.sha256sum \
